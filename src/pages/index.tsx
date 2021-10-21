@@ -1,33 +1,15 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
-import axios from 'axios'
-import useSWR from 'swr'
+import { useResas } from '../hooks/useResas'
 
 interface PrefList {
   prefCode: number
   prefName: string
 }
 
-interface Res {
-  result: PrefList[]
-}
-
 const Home: NextPage = () => {
-  const fetcher = (url: string) =>
-    axios
-      .get<Res>(url, {
-        headers: { 'X-API-KEY': 'B54onZ294qfIEvmevUdQX9lOiKJrDnoNR7LYDrQ6' },
-      })
-      .then((res) => res.data)
-
-  const { data, error } = useSWR(
-    'https://opendata.resas-portal.go.jp/api/v1/prefectures',
-    fetcher
-  )
-
-  console.log(data)
-
+  const { result, error } = useResas<PrefList>('api/v1/prefectures')
   return (
     <>
       <Head>
@@ -37,7 +19,7 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
-        {data?.result.map((item) => {
+        {result?.map((item) => {
           return <p key={item.prefCode}>{item.prefName}</p>
         })}
       </main>
