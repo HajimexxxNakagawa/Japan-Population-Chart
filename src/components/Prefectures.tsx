@@ -8,12 +8,12 @@ interface PrefList {
 }
 
 export const Prefectures: VFC = () => {
-  const { result, error } = useResas<PrefList>('api/v1/prefectures')
+  const { result } = useResas<PrefList>('api/v1/prefectures')
 
   return (
     <>
-      {result?.map((item) => {
-        return <p key={item.prefCode}>{item.prefName}</p>
+      {result?.map(({ prefCode, prefName }) => {
+        return <p key={prefCode}>{prefName}</p>
       })}
     </>
   )
