@@ -1,7 +1,10 @@
-import type { NextPage } from 'next'
 import Head from 'next/head'
-import styles from '../styles/Home.module.css'
-import { Prefectures } from '../components/Prefectures'
+
+import { Prefectures } from '@/components/Prefectures'
+
+import type { NextPage } from 'next'
+
+import styles from '@/styles/Home.module.css'
 
 const Home: NextPage = () => {
   return (

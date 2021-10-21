@@ -1,5 +1,6 @@
 import React, { VFC } from 'react'
-import { useResas } from '../hooks/useResas'
+
+import { useResas } from '@/hooks/useResas'
 
 interface PrefList {
   prefCode: number
