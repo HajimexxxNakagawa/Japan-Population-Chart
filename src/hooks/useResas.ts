@@ -1,16 +1,16 @@
 import axios from 'axios'
 import useSWR from 'swr'
 
-export const useResas = <T>(path: string) => {
-  interface Res {
-    result: T[]
-  }
+interface Res<T> {
+  result: T[]
+}
 
+export const useResas = <T>(path: string) => {
   const apiKey = process.env.NEXT_PUBLIC_RESAS_API_KEY
 
   const fetcher = (url: string) =>
     axios
-      .get<Res>(url, {
+      .get<Res<T>>(url, {
         headers: {
           'X-API-KEY': apiKey as string,
         },
