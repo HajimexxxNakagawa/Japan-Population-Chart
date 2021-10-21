@@ -1,15 +1,9 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
-import { useResas } from '../hooks/useResas'
-
-interface PrefList {
-  prefCode: number
-  prefName: string
-}
+import { Prefectures } from '../components/Prefectures'
 
 const Home: NextPage = () => {
-  const { result, error } = useResas<PrefList>('api/v1/prefectures')
   return (
     <>
       <Head>
@@ -22,9 +16,7 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
-        {result?.map((item) => {
-          return <p key={item.prefCode}>{item.prefName}</p>
-        })}
+        <Prefectures />
       </main>
     </>
   )
