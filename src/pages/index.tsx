@@ -1,35 +1,21 @@
 import Head from 'next/head'
-import React, { useState } from 'react'
+import React from 'react'
 
 import { useResas } from '@/hooks/useResas'
+import { useSeries } from '@/hooks/useSeries'
 
 import { Chart } from '@/components/Chart'
 import { Prefectures } from '@/components/Prefectures'
 import { Spinner } from '@/components/Spinner'
 
 import type { Prefecture } from '@/types/Prefecture'
-import type { Series } from '@/types/Series'
 import type { NextPage } from 'next'
 
 import styles from '@/styles/Home.module.css'
 
-import { getPopulationData } from '@/utils/getPopulationData'
-
 const Home: NextPage = () => {
-  const [series, setSeries] = useState<Series>([])
+  const [series, addSeries, deleteSeries] = useSeries()
   const { result } = useResas<Prefecture[]>('api/v1/prefectures')
-
-  const addSeries = (prefCode: number, prefName: string) => {
-    getPopulationData(prefCode, prefName).then((newData) => {
-      if (series) {
-        setSeries([...series, newData])
-      } else {
-        setSeries([newData])
-      }
-    })
-  }
-
-  const deleteSeries = (prefCode: number, prefName: string) => {}
 
   if (!result) return <Spinner />
 
