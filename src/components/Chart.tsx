@@ -11,7 +11,11 @@ interface PopulationStructure {
   data: { label: string; data: PopulationData[] }[]
 }
 
-export const Chart: VFC = () => {
+interface Props {
+  series: Highcharts.SeriesOptionsType[]
+}
+
+export const Chart: VFC<Props> = ({ series }) => {
   const { result } = useResas<PopulationStructure>(
     'api/v1/population/composition/perYear?prefCode=13'
   )
@@ -19,7 +23,7 @@ export const Chart: VFC = () => {
   const categories = result?.data[0].data.map((item) => item.year.toString())
 
   const options: Highcharts.Options = {
-    series: [{ type: 'line', data: pops, name: '東京' }],
+    series: series,
     title: {
       style: {
         display: 'none',

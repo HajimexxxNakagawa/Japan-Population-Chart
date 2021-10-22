@@ -1,4 +1,7 @@
+import axios from 'axios'
+import Highcharts from 'highcharts'
 import Head from 'next/head'
+import React, { useState } from 'react'
 
 import { useResas } from '@/hooks/useResas'
 
@@ -6,14 +9,60 @@ import { Chart } from '@/components/Chart'
 import { Prefectures } from '@/components/Prefectures'
 import { Spinner } from '@/components/Spinner'
 
+type PopulationData = { year: number; value: number }
+interface PopulationStructure {
+  boundaryYear: number
+  data: { label: string; data: PopulationData[] }[]
+}
 import type { Prefecture } from '@/types/Prefecture'
 import type { NextPage } from 'next'
 
 import styles from '@/styles/Home.module.css'
-
+interface Res<T> {
+  result: T
+}
 const Home: NextPage = () => {
+  const [series, setSeries] = useState<
+    Highcharts.SeriesOptionsType[] | never[]
+  >([])
   const { result } = useResas<Prefecture[]>('api/v1/prefectures')
   if (!result) return <Spinner />
+
+  const getPopulationData = async (prefCode: number, prefName: string) => {
+    const url = `https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?prefCode=${prefCode}`
+    const apiKey = process.env.NEXT_PUBLIC_RESAS_API_KEY
+
+    const data = axios
+      .get<Res<PopulationStructure>>(url, {
+        headers: {
+          'X-API-KEY': apiKey as string,
+        },
+      })
+      .then((res) => res.data)
+      .then((res) => {
+        const pops = res.result.data[0].data.map((item) => item.value)
+        const newData: Highcharts.SeriesOptionsType = {
+          type: 'line',
+          data: pops,
+          name: prefName,
+        }
+        return newData
+      })
+
+    return data
+  }
+
+  const addSeries = (prefCode: number, prefName: string) => {
+    getPopulationData(prefCode, prefName).then((newData) => {
+      if (series) {
+        setSeries([...series, newData])
+      } else {
+        setSeries([newData])
+      }
+    })
+  }
+
+  const deleteSeries = (prefCode: number, prefName: string) => {}
 
   return (
     <>
@@ -28,8 +77,8 @@ const Home: NextPage = () => {
 
       <main className={styles.main}>
         <h1 className={styles.title}>都道府県別人口推移</h1>
-        <Prefectures prefList={result} />
-        <Chart />
+        <Prefectures prefList={result} on={addSeries} off={deleteSeries} />
+        <Chart series={series} />
       </main>
     </>
   )

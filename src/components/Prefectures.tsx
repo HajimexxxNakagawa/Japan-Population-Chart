@@ -1,23 +1,49 @@
-import React, { VFC } from 'react'
+import React, { useState, VFC } from 'react'
 
 import type { Prefecture } from '@/types/Prefecture'
 
 import styles from '@/styles/Prefectures.module.css'
 
-export const CheckBox = ({ label }: { label: string }) => {
+type ToggleFunc = {
+  on: (prefCode: number, prefName: string) => void
+  off: (prefCode: number, prefName: string) => void
+}
+type CheckBoxProps = Prefecture & ToggleFunc
+
+export const CheckBox: VFC<CheckBoxProps> = ({
+  prefCode,
+  prefName,
+  on,
+  off,
+}) => {
+  const [isOn, toggleIsOn] = useState(false)
+  const handleChange = () => {
+    if (isOn) {
+      off(prefCode, prefName)
+      toggleIsOn((state) => !state)
+    } else {
+      on(prefCode, prefName)
+      toggleIsOn((state) => !state)
+    }
+  }
   return (
-    <label htmlFor={label} className={styles.label}>
-      <input id={label} type="checkbox" name={label} />
-      {label}
+    <label htmlFor={prefName} className={styles.label}>
+      <input
+        id={prefName}
+        type="checkbox"
+        name={prefName}
+        onChange={handleChange}
+      />
+      {prefName}
     </label>
   )
 }
 
-interface Props {
+type Props = {
   prefList: Prefecture[]
-}
+} & ToggleFunc
 
-export const Prefectures: VFC<Props> = ({ prefList }) => {
+export const Prefectures: VFC<Props> = ({ prefList, on, off }) => {
   return (
     <div className={styles.container}>
       <span>
@@ -25,7 +51,15 @@ export const Prefectures: VFC<Props> = ({ prefList }) => {
       </span>
       <div className={styles.list}>
         {prefList.map(({ prefCode, prefName }) => {
-          return <CheckBox key={prefCode} label={prefName} />
+          return (
+            <CheckBox
+              key={prefCode}
+              prefName={prefName}
+              prefCode={prefCode}
+              on={on}
+              off={off}
+            />
+          )
         })}
       </div>
     </div>
