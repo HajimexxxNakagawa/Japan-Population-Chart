@@ -21,7 +21,9 @@ export const useSeries = (): [
     })
   }
 
-  const deleteSeries = (prefCode: number, prefName: string) => {}
+  const deleteSeries = (prefCode: number, prefName: string) => {
+    setSeries((series) => series.filter((item) => item.name !== prefName))
+  }
 
   return [series, addSeries, deleteSeries]
 }
