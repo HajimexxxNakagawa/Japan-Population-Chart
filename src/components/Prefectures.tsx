@@ -1,4 +1,4 @@
-import React, { useState, VFC } from 'react'
+import React, { useCallback, useState, VFC } from 'react'
 
 import type { Prefecture } from '@/types/Prefecture'
 
@@ -16,22 +16,27 @@ export const CheckBox: VFC<CheckBoxProps> = ({
   on,
   off,
 }) => {
-  const [isOn, toggleIsOn] = useState(false)
+  const [isOn, setIsOn] = useState(false)
+  const toggle = useCallback(() => {
+    setIsOn((state) => !state)
+  }, [])
+
   const handleChange = () => {
     if (isOn) {
       off(prefCode, prefName)
-      toggleIsOn((state) => !state)
     } else {
       on(prefCode, prefName)
-      toggleIsOn((state) => !state)
     }
+    toggle()
   }
+
   return (
     <label htmlFor={prefName} className={styles.label}>
       <input
         id={prefName}
         type="checkbox"
         name={prefName}
+        checked={isOn}
         onChange={handleChange}
       />
       {prefName}
