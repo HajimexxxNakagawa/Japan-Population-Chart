@@ -2,13 +2,13 @@ import React, { VFC } from 'react'
 
 import { useResas } from '@/hooks/useResas'
 
-interface PrefList {
+interface Prefecture {
   prefCode: number
   prefName: string
 }
 
 export const Prefectures: VFC = () => {
-  const { result } = useResas<PrefList>('api/v1/prefectures')
+  const { result } = useResas<Prefecture[]>('api/v1/prefectures')
 
   return (
     <>

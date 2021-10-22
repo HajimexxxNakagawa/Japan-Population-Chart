@@ -2,7 +2,7 @@ import axios from 'axios'
 import useSWR from 'swr'
 
 interface Res<T> {
-  result: T[]
+  result: T
 }
 
 export const useResas = <T>(path: string) => {
