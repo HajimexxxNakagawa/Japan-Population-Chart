@@ -44,5 +44,9 @@ export const Chart: VFC = () => {
   }
   if (!result) return <></>
 
-  return <HighchartsReact highcharts={Highcharts} options={options} />
+  return (
+    <div style={{ width: `100%`, maxWidth: `800px` }}>
+      <HighchartsReact highcharts={Highcharts} options={options} />
+    </div>
+  )
 }

@@ -2,11 +2,15 @@
   cursor: pointer;
 }
 
-.list {
+.container {
   width: 100%;
+  padding: 0 2rem 2rem;
+  max-width: 800px;
+}
+
+.list {
   display: grid;
   grid-template-columns: repeat(4, auto);
   justify-items: start;
-  justify-content: space-around;
-  max-width: 800px;
+  justify-content: space-between;
 }

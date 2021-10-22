@@ -19,10 +19,15 @@ interface Props {
 
 export const Prefectures: VFC<Props> = ({ prefList }) => {
   return (
-    <div className={styles.list}>
-      {prefList.map(({ prefCode, prefName }) => {
-        return <CheckBox key={prefCode} label={prefName} />
-      })}
+    <div className={styles.container}>
+      <span>
+        <strong>都道府県</strong>
+      </span>
+      <div className={styles.list}>
+        {prefList.map(({ prefCode, prefName }) => {
+          return <CheckBox key={prefCode} label={prefName} />
+        })}
+      </div>
     </div>
   )
 }
