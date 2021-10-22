@@ -1,12 +1,11 @@
 import axios from 'axios'
+
+import { PopulationStructure } from '@/types/PopulationStructure'
+
 interface Res<T> {
   result: T
 }
-type PopulationData = { year: number; value: number }
-interface PopulationStructure {
-  boundaryYear: number
-  data: { label: string; data: PopulationData[] }[]
-}
+
 export const getPopulationData = async (prefCode: number, prefName: string) => {
   const url = `https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?prefCode=${prefCode}`
   const apiKey = process.env.NEXT_PUBLIC_RESAS_API_KEY

@@ -10,6 +10,7 @@ import { Prefectures } from '@/components/Prefectures'
 import { Spinner } from '@/components/Spinner'
 
 import type { Prefecture } from '@/types/Prefecture'
+import type { Series } from '@/types/Series'
 import type { NextPage } from 'next'
 
 import styles from '@/styles/Home.module.css'
@@ -17,9 +18,7 @@ import styles from '@/styles/Home.module.css'
 import { getPopulationData } from '@/utils/getPopulationData'
 
 const Home: NextPage = () => {
-  const [series, setSeries] = useState<
-    Highcharts.SeriesOptionsType[] | never[]
-  >([])
+  const [series, setSeries] = useState<Series>([])
   const { result } = useResas<Prefecture[]>('api/v1/prefectures')
 
   const addSeries = (prefCode: number, prefName: string) => {

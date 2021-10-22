@@ -4,15 +4,11 @@ import React, { VFC } from 'react'
 
 import { useResas } from '@/hooks/useResas'
 
-type PopulationData = { year: number; value: number }
-
-interface PopulationStructure {
-  boundaryYear: number
-  data: { label: string; data: PopulationData[] }[]
-}
+import { PopulationStructure } from '@/types/PopulationStructure'
+import { Series } from '@/types/Series'
 
 interface Props {
-  series: Highcharts.SeriesOptionsType[]
+  series: Series
 }
 
 export const Chart: VFC<Props> = ({ series }) => {
