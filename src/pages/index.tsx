@@ -1,13 +1,18 @@
 import Head from 'next/head'
 
+import { useResas } from '@/hooks/useResas'
+
 import { Chart } from '@/components/Chart'
 import { Prefectures } from '@/components/Prefectures'
 
+import type { Prefecture } from '@/types/Prefecture'
 import type { NextPage } from 'next'
 
 import styles from '@/styles/Home.module.css'
 
 const Home: NextPage = () => {
+  const { result } = useResas<Prefecture[]>('api/v1/prefectures')
+
   return (
     <>
       <Head>
@@ -20,7 +25,7 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
-        <Prefectures />
+        <Prefectures prefList={result} />
         <Chart />
       </main>
     </>
