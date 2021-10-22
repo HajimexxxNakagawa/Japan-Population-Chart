@@ -1,71 +1,13 @@
-import * as Highcharts from 'highcharts'
-import HighchartsReact from 'highcharts-react-official'
 import Head from 'next/head'
 
-import { useResas } from '@/hooks/useResas'
-
+import { Chart } from '@/components/Chart'
 import { Prefectures } from '@/components/Prefectures'
 
 import type { NextPage } from 'next'
 
 import styles from '@/styles/Home.module.css'
-type PopulationData = { year: number; value: number }
-
-interface PopulationStructure {
-  boundaryYear: number
-  data: { label: string; data: PopulationData[] }[]
-}
 
 const Home: NextPage = () => {
-  const { result } = useResas<PopulationStructure>(
-    'api/v1/population/composition/perYear?cityCode=11362&prefCode=11'
-  )
-  if (!result) return <></>
-
-  const pops = result?.data[0].data.map((item) => item.value)
-
-  console.log(result)
-  const options: Highcharts.Options = {
-    /* seriesにオブジェクトを追加するとグラフに描画される */
-    series: [{ type: 'line', data: pops, name: '東京' }],
-    title: {
-      style: {
-        display: 'none',
-      },
-    },
-    legend: {
-      align: 'right',
-      verticalAlign: 'top',
-      layout: 'vertical',
-    },
-    xAxis: {
-      title: {
-        text: '年度',
-      },
-      categories: [
-        '1980',
-        '1985',
-        '1990',
-        '1995',
-        '2000',
-        '2005',
-        '2010',
-        '2015',
-        '2020',
-        '2025',
-        '2030',
-        '2035',
-        '2040',
-        '2045',
-      ],
-    },
-    yAxis: {
-      title: {
-        text: '人口数',
-      },
-    },
-  }
-
   return (
     <>
       <Head>
@@ -79,7 +21,7 @@ const Home: NextPage = () => {
 
       <main className={styles.main}>
         <Prefectures />
-        <HighchartsReact highcharts={Highcharts} options={options} />
+        <Chart />
       </main>
     </>
   )
