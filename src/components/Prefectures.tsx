@@ -6,7 +6,7 @@ import styles from '@/styles/Prefectures.module.css'
 
 export const CheckBox = ({ label }: { label: string }) => {
   return (
-    <label htmlFor={label}>
+    <label htmlFor={label} className={styles.label}>
       <input id={label} type="checkbox" name={label} />
       {label}
     </label>
@@ -14,13 +14,13 @@ export const CheckBox = ({ label }: { label: string }) => {
 }
 
 interface Props {
-  prefList: Prefecture[] | undefined
+  prefList: Prefecture[]
 }
 
 export const Prefectures: VFC<Props> = ({ prefList }) => {
   return (
     <div className={styles.list}>
-      {prefList?.map(({ prefCode, prefName }) => {
+      {prefList.map(({ prefCode, prefName }) => {
         return <CheckBox key={prefCode} label={prefName} />
       })}
     </div>

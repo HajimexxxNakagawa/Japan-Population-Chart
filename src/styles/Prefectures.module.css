@@ -1,7 +1,12 @@
+.label {
+  cursor: pointer;
+}
+
 .list {
   width: 100%;
   display: grid;
   grid-template-columns: repeat(4, auto);
   justify-items: start;
   justify-content: space-around;
+  max-width: 800px;
 }

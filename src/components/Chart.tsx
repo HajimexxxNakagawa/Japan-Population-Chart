@@ -12,13 +12,11 @@ interface PopulationStructure {
 }
 
 export const Chart: VFC = () => {
-  const { data } = useResas<PopulationStructure>(
+  const { result } = useResas<PopulationStructure>(
     'api/v1/population/composition/perYear?prefCode=13'
   )
-  const pops = data?.result.data[0].data.map((item) => item.value)
-  const categories = data?.result?.data[0].data.map((item) =>
-    item.year.toString()
-  )
+  const pops = result?.data[0].data.map((item) => item.value)
+  const categories = result?.data[0].data.map((item) => item.year.toString())
 
   const options: Highcharts.Options = {
     series: [{ type: 'line', data: pops, name: '東京' }],
@@ -44,7 +42,7 @@ export const Chart: VFC = () => {
       },
     },
   }
-  if (!data) return <></>
+  if (!result) return <></>
 
   return <HighchartsReact highcharts={Highcharts} options={options} />
 }
