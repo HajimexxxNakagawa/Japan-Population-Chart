@@ -1,5 +1,3 @@
-import axios from 'axios'
-import Highcharts from 'highcharts'
 import Head from 'next/head'
 import React, { useState } from 'react'
 
