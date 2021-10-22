@@ -9,48 +9,18 @@ import { Chart } from '@/components/Chart'
 import { Prefectures } from '@/components/Prefectures'
 import { Spinner } from '@/components/Spinner'
 
-type PopulationData = { year: number; value: number }
-interface PopulationStructure {
-  boundaryYear: number
-  data: { label: string; data: PopulationData[] }[]
-}
 import type { Prefecture } from '@/types/Prefecture'
 import type { NextPage } from 'next'
 
 import styles from '@/styles/Home.module.css'
-interface Res<T> {
-  result: T
-}
+
+import { getPopulationData } from '@/utils/getPopulationData'
+
 const Home: NextPage = () => {
   const [series, setSeries] = useState<
     Highcharts.SeriesOptionsType[] | never[]
   >([])
   const { result } = useResas<Prefecture[]>('api/v1/prefectures')
-  if (!result) return <Spinner />
-
-  const getPopulationData = async (prefCode: number, prefName: string) => {
-    const url = `https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?prefCode=${prefCode}`
-    const apiKey = process.env.NEXT_PUBLIC_RESAS_API_KEY
-
-    const data = axios
-      .get<Res<PopulationStructure>>(url, {
-        headers: {
-          'X-API-KEY': apiKey as string,
-        },
-      })
-      .then((res) => res.data)
-      .then((res) => {
-        const pops = res.result.data[0].data.map((item) => item.value)
-        const newData: Highcharts.SeriesOptionsType = {
-          type: 'line',
-          data: pops,
-          name: prefName,
-        }
-        return newData
-      })
-
-    return data
-  }
 
   const addSeries = (prefCode: number, prefName: string) => {
     getPopulationData(prefCode, prefName).then((newData) => {
@@ -63,6 +33,8 @@ const Home: NextPage = () => {
   }
 
   const deleteSeries = (prefCode: number, prefName: string) => {}
+
+  if (!result) return <Spinner />
 
   return (
     <>
