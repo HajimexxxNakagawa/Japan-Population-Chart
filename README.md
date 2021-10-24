@@ -33,7 +33,7 @@ yarn dev
 - TypeScript
 - Highcharts React
 - react-loader-spinner
-- story-books
+- cypress
 - axios
 - SWR
 - Prettier
