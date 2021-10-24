@@ -4,6 +4,12 @@ import type { Prefecture } from '@/types/Prefecture'
 
 import styles from '@/styles/Prefectures.module.css'
 
+// TODO: Checkboxは文脈によらない単なるUIコンポーネントにすべき
+// 現状ではinterfaceの制約が強すぎるので、例えば以下のような改善をしたい
+// - 引数をPartialにする
+// - prefCode, prefNameではなく、idやlabelなどより一般的な名前にする
+// - on, off関数で引数の制約を持たないようにする
+// 本アプリでは都道府県名しか用途がないので一旦これで良しとしている
 type ToggleFunc = {
   on: (prefCode: number, prefName: string) => void
   off: (prefCode: number, prefName: string) => void
