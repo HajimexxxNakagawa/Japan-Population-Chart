@@ -18,10 +18,10 @@ export const getPopulationData = async (prefCode: number, prefName: string) => {
     })
     .then((res) => res.data)
     .then((res) => {
-      const pops = res.result.data[0].data.map((item) => item.value)
+      const populationData = res.result.data[0].data.map((item) => item.value)
       const newData: Highcharts.SeriesOptionsType = {
         type: 'line',
-        data: pops,
+        data: populationData,
         name: prefName,
       }
       return newData
